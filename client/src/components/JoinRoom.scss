@@ -1,0 +1,38 @@
+.join-room {
+
+  padding: 2em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__title {
+    color: blue;
+    margin-bottom: 1em;
+  }
+
+  &__input {
+      margin-bottom: 1em;
+      padding: 1em;
+      text-align: center;
+      width: 80%;
+  }
+
+  &__button {
+    padding: 1em;
+    width: 80%;    
+    color: gray;
+    border: 1px solid rgb(181, 181, 181);
+
+    &-active {
+      background-color: blue;
+      color: white;
+      border: none;
+    }
+  }
+}
+
+.Join{
+  background-color: green;
+}

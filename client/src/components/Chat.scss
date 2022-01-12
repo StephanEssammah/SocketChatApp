@@ -1,0 +1,68 @@
+.chat {
+  padding: 2em;
+  text-align: center;
+
+  &__title {
+    color: blue;
+    margin-bottom: 1em;
+  }
+
+  &__body {
+    width: 100%;
+
+    &__message {
+      margin-bottom: 1em;
+
+      &__meta {
+        text-align: left;
+        font-size: 0.75em;
+      }
+
+      &__name {
+        display: inline;
+      }
+
+      &__text{
+        background: rgb(226, 226, 226);
+        padding: 0.5em 1em;
+        border-radius: 10px;
+        margin-bottom: 0.5em;
+        width: fit-content;
+        margin-left: auto;
+      }
+
+      &__time {
+        color: gray;
+        display: inline;
+        margin-right: 0.5em;
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: 1em;
+    width: 100%;
+    margin-top: auto;
+    &__input {
+      margin-bottom: 1em;
+      padding: 1em;
+      width: 80%;
+    }
+  
+    &__button {
+      padding: 1em;
+      width: 20%;
+    }
+  }
+}
+
+
+.text--you{
+  color: white;
+  background-color: rgb(81, 171, 201);
+  margin-left: 0;
+}
+
+.time--you{
+  text-align: left;
+}

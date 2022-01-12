@@ -2,6 +2,7 @@ import express from "express"
 import http from "http"
 import cors from "cors"
 import { Server } from "socket.io"
+import { fetchRooms } from "./utils.js"
 
 const app = express()
 app.use(cors())
@@ -12,6 +13,12 @@ const io = new Server(server, {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }  
+})
+
+app.get('/rooms', async (req, res) => {
+  const roomList = await fetchRooms()
+  res.status(200)
+  res.json(roomList);
 })
 
 io.on("connection", (socket) => {
