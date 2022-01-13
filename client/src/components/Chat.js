@@ -29,11 +29,11 @@ export const Chat = ({socket, username, room}) => {
       <h1 className="chat__title">Live Chat</h1>
 
       <div className="chat__body">
-        {messageList.map(message => {
+        {messageList.map((message, index) => {
           const messageClass = (message.username === username) ? "--you" : "" 
           const name = (message.username === username) ? "You:" : message.username
           return (
-            <div className="chat__body__message">
+            <div key={index} className="chat__body__message">
               <div className="chat__body__message__meta">
                 <p className={`chat__body__message__time time${messageClass}`}>{message.time}</p>
                 <p className={`chat__body__message__name time${messageClass}`}>{name}</p>
