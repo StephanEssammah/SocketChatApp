@@ -1,14 +1,15 @@
 .join-room {
-
+  height: 100vh;
   padding: 2em;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: var(--clr-background);
 
   &__title {
-    color: blue;
+    color: var(--clr-primary);
     margin-bottom: 1em;
   }
 
@@ -17,16 +18,29 @@
       padding: 1em;
       text-align: center;
       width: 80%;
+      border: none;
+      border-radius: var(--border-main);
+      
+      &::placeholder{
+        color: #D3D3D3;
+      }
+
+      &:focus {
+        outline-width: 1px ;
+        outline-color: var(--clr-primary);
+      }
   }
 
   &__button {
     padding: 1em;
     width: 80%;    
-    color: gray;
-    border: 1px solid rgb(181, 181, 181);
+    color: white;
+    background-color: #7F888D;
+    border: none;
+    border-radius: var(--border-main);
 
     &-active {
-      background-color: blue;
+      background-color: var(--clr-primary);
       color: white;
       border: none;
     }
@@ -34,5 +48,5 @@
 }
 
 .Join{
-  background-color: green;
+  background-color: #06D471;
 }

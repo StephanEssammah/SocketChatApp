@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import axios from 'axios'
 import './Chat.scss'
 
 export const Chat = ({socket, username, room}) => {
@@ -24,19 +25,31 @@ export const Chat = ({socket, username, room}) => {
     })
   }, [socket])
 
+  useEffect(() => {
+    console.log('hello')
+    const fetchMessages = async () => {
+      const messages = await axios.get('http://localhost:3001/getMessages', { params: {roomName: room} })
+      setMessageList(messages.data)
+    }
+    fetchMessages();
+  }, [room])
+
+
   return (
     <div className="chat">
-      <h1 className="chat__title">Live Chat</h1>
+      <p className="chat__over-title">Room:</p>
+      <h1 className="chat__title">{room}</h1>
 
       <div className="chat__body">
         {messageList.map((message, index) => {
-          const messageClass = (message.username === username) ? "--you" : "" 
-          const name = (message.username === username) ? "You:" : message.username
+          const messageClass = (message.username === username) ? "--you" : ""
+          const metaClass = (message.username === username) ? "meta-you" : "" 
+          const name = (message.username === username) ? "You" : message.username
           return (
             <div key={index} className="chat__body__message">
-              <div className="chat__body__message__meta">
+              <div className={`chat__body__message__meta ${metaClass}`}>
                 <p className={`chat__body__message__time time${messageClass}`}>{message.time}</p>
-                <p className={`chat__body__message__name time${messageClass}`}>{name}</p>
+                <p className={`chat__body__message__name time${messageClass}`}>{name}:</p>
               </div>
               <p className={`chat__body__message__text text${messageClass}`}>{message.message}</p>
             </div>

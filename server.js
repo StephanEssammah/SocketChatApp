@@ -2,12 +2,13 @@ import express from "express"
 import http from "http"
 import cors from "cors"
 import { Server } from "socket.io"
-import { getRooms, updateRooms } from "./utils.js"
+import { getRooms, getMessages, createRoom, newMessage } from "./utils.js"
 import { MongoClient } from "mongodb"
 
 const app = express()
 app.use(cors())
 app.use(express.json());
+
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -17,16 +18,20 @@ const io = new Server(server, {
   }  
 })
 
-app.get('/rooms', async (req, res) => {
+app.get('/getRooms', async (req, res) => {
   const roomList = await getRooms()
   res.status(200).json(roomList)
 })
 
-app.put('/rooms', async (req, res) => {
-  await updateRooms(req.body.roomName)
-  res.status(204).end()
+app.get('/getMessages', async (req, res) => {
+  const messages = await getMessages(req.query.roomName)
+  res.status(200).json(messages)
 })
 
+app.post('/createRoom', async (req, res) => {
+  await createRoom(req.body.roomName)
+  res.status(201).end()
+})
 
 io.on("connection", (socket) => {
   console.log(`${socket.id} Connected`)
@@ -36,7 +41,8 @@ io.on("connection", (socket) => {
     console.log(`User ${socket.id} joined: ${room}`)
   })
 
-  socket.on("send_message", (data) => {
+  socket.on("send_message", async (data) => {
+    await newMessage(data)
     socket.to(data.room).emit("receive_message", data)
   })
 

@@ -20,15 +20,15 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
 
   useEffect(() => {
     const fetchRooms = async () => {
-      const theRooms = await axios.get('http://localhost:3001/rooms')
+      const theRooms = await axios.get('http://localhost:3001/getRooms')
       setRoomList(theRooms.data)
     }
     fetchRooms();
   }, [])
 
-  const joinRoom = () => {
+  const joinRoom = async () => {
     if (username === ""|| room === "") return;
-    if (roomStatus === "Create") axios.put('http://localhost:3001/rooms', { roomName: currentRoom})
+    if (roomStatus === "Create") await axios.post('http://localhost:3001/createRoom', { roomName: currentRoom})
 
     socket.emit("join_room", room)
     setShowJoinRoom(false)
@@ -37,17 +37,17 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
 
   return (
     <div className="join-room">
-      <h1 className="join-room__title">Join A Chatroom</h1>
+      <h1 className="join-room__title">Join a chatroom</h1>
       <input 
         className="join-room__input" 
         type="text" 
-        placeholder="Name"
+        placeholder="Name..."
         onKeyPress={(e) => e.key === "Enter" && joinRoom()}  
         onChange={(e) => setUsername(e.target.value)} />
       <input 
         className="join-room__input" 
         type="text" 
-        placeholder="Roomname"
+        placeholder="Room name..."
         onKeyPress={(e) => e.key === "Enter" && joinRoom()} 
         onChange={(e) => {
           setRoom(e.target.value)
