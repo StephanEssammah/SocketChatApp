@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef} from "react"
 import axios from 'axios'
 import './Chat.scss'
 
 export const Chat = ({socket, username, room}) => {
   const [currentMessage, setCurrentMessage] = useState("")
   const [messageList, setMessageList] = useState([])
+  const messageEndRef = useRef(null);
 
   const sendMessage = async () => {
     if (currentMessage === "") return;
@@ -26,7 +27,6 @@ export const Chat = ({socket, username, room}) => {
   }, [socket])
 
   useEffect(() => {
-    console.log('hello')
     const fetchMessages = async () => {
       const messages = await axios.get('http://localhost:3001/getMessages', { params: {roomName: room} })
       setMessageList(messages.data)
@@ -34,6 +34,9 @@ export const Chat = ({socket, username, room}) => {
     fetchMessages();
   }, [room])
 
+  useEffect(() => {
+    messageEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }, [messageList])
 
   return (
     <div className="chat">
@@ -55,6 +58,7 @@ export const Chat = ({socket, username, room}) => {
             </div>
           )
         })}
+        <div ref={messageEndRef}/>
       </div>
 
       <div className="chat__footer">
