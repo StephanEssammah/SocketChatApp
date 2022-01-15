@@ -16,7 +16,7 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
     roomList.includes(currentRoom)
       ? setRoomStatus("Join")
       : setRoomStatus("Create")  
-  }, [username, room, currentRoom])
+  }, [username, room, currentRoom, roomList])
 
   useEffect(() => {
     const fetchRooms = async () => {
