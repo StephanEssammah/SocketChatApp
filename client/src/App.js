@@ -1,6 +1,6 @@
 import './App.scss';
 import io from 'socket.io-client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Chat } from './components/Chat';
 import { JoinRoom } from './components/JoinRoom';
 
@@ -11,11 +11,15 @@ function App() {
   const [room, setRoom] = useState("");
   const [showJoinRoom, setShowJoinRoom] = useState(true)
 
+  useEffect(() => {
+    if (showJoinRoom === true) socket.emit("join_lobby")
+  }, [showJoinRoom])
+
   return (
     <div className="App">
       {showJoinRoom 
       ? <JoinRoom socket={socket} username={username} room={room} setUsername={setUsername} setRoom={setRoom} setShowJoinRoom={setShowJoinRoom}/>
-      : <Chat socket={socket} username={username} room={room}/>
+      : <Chat socket={socket} username={username} room={room} setShowJoinRoom={setShowJoinRoom}/>
       }
     </div>
   );

@@ -2,28 +2,49 @@ import { useState, useEffect, useRef} from "react"
 import axios from 'axios'
 import './Chat.scss'
 
-export const Chat = ({socket, username, room}) => {
+export const Chat = ({socket, username, room, setShowJoinRoom}) => {
   const [currentMessage, setCurrentMessage] = useState("")
   const [messageList, setMessageList] = useState([])
+  const [typing, setTyping] = useState(false)
   const messageEndRef = useRef(null);
+
 
   const sendMessage = async () => {
     if (currentMessage === "") return;
+    const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
+
     const messageData = {
       username,
       room,
       message: currentMessage,
-      time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
+      time: currentTime
     }
     setCurrentMessage("")
     await socket.emit("send_message", messageData)
     setMessageList((prevList) => [...prevList, messageData ])
   }
 
+  const messageInput = (e) => {
+    setCurrentMessage(e.target.value)
+    socket.emit("typing", room)
+  }
+
   useEffect(() => {
+    let timerID;
     socket.on("receive_message", (data) => {
+      setTyping(false)
       setMessageList((prevList) => [...prevList, data])
     })
+
+    socket.on("typing", (data) => {
+      setTyping(true)
+      clearTimeout(timerID)
+      timerID = setTimeout(() => {
+        setTyping(false)
+      }, 3000);
+    })
+
+    
   }, [socket])
 
   useEffect(() => {
@@ -36,12 +57,14 @@ export const Chat = ({socket, username, room}) => {
 
   useEffect(() => {
     messageEndRef.current.scrollIntoView({ behavior: "smooth" })
-  }, [messageList])
+  }, [messageList, typing])
 
   return (
     <div className="chat">
-      <p className="chat__over-title">Room:</p>
-      <h1 className="chat__title">{room}</h1>
+      <div className="chat__header">
+        <button className="chat__header__back-button" onClick={() => setShowJoinRoom(true)}>&lt;</button>
+        <h1 className="chat__header__title">{room}</h1>
+      </div>
 
       <div className="chat__body">
         {messageList.map((message, index) => {
@@ -58,6 +81,13 @@ export const Chat = ({socket, username, room}) => {
             </div>
           )
         })}
+        {typing && <div className="chat__body__message">
+          <div className="chat__body__message__text"id="wave">
+            <span className="dot"></span>
+            <span className="dot"></span>
+            <span className="dot"></span>
+          </div>
+        </div>}
         <div ref={messageEndRef}/>
       </div>
 
@@ -67,7 +97,7 @@ export const Chat = ({socket, username, room}) => {
           className="chat__footer__input"
           type="text" 
           placeholder="message..." 
-          onChange={e => setCurrentMessage(e.target.value)}
+          onChange={e => messageInput(e)}
           onKeyPress={(e) => e.key === "Enter" && sendMessage()}
         />
 

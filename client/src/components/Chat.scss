@@ -1,25 +1,36 @@
 .chat {
-  padding-top: 1em;
   text-align: center;
   background-color: var(--clr-background);
   height: 100vh;
   display: flex;
   flex-direction: column;
 
-  &__over-title {
-    color: rgb(190, 190, 190);
-  }
+  &__header {
+    padding: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: var(--clr-dividers) 1px solid;
 
-  &__title {
-    color: rgb(77, 77, 77);
-    margin-bottom: 1em;
-    line-height: 1em;
+    &__title {
+      color: var(--clr-gray);
+    }
+
+    &__back-button{
+      padding: 0;
+      width: 1.5em;
+      background-color: var(--clr-gray);
+      border: none;
+      color: white;
+      border-radius: var(--border-main);
+      font-size: 2em;
+      font-weight: 500;
+    }
   }
 
   &__body {
     width: 100%;
     max-height: 80vh;
-    padding: 0em 2em;
+    padding: 1em;
     overflow-y: scroll;
     overflow-anchor: auto;
 
@@ -55,10 +66,11 @@
   }
 
   &__footer {
-    padding: 1em 2em;
+    padding: 1em;
     margin-top: 1em;
     width: 100%;
     margin-top: auto;
+    border-top: var(--clr-dividers) 1px solid;
     
     &__input {
       border: none;
@@ -94,4 +106,35 @@
 
 .meta-you {
   text-align: right;
+}
+
+
+div#wave {
+	.dot {
+		display:inline-block;
+		width:8px;
+		height:8px;
+		border-radius:50%;
+		margin-right:5px;
+		background: var(--clr-gray);
+		animation: wave 1s linear infinite;
+
+		&:nth-child(2) {
+			animation-delay: -0.8s;
+		}
+
+		&:nth-child(3) {
+			animation-delay: -0.6s;
+		}
+	}
+}
+
+@keyframes wave {
+	0%, 60%, 100% {
+		transform: initial;
+	}
+
+	30% {
+		transform: translateY(-10px);
+	}
 }
