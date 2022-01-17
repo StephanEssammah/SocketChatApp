@@ -9,16 +9,16 @@
     padding: 1em;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    border-bottom: grey 1px solid;
+    border-bottom: var(--clr-dividers) 1px solid;
 
     &__title {
-      color: rgb(77, 77, 77);
+      color: var(--clr-gray);
     }
 
     &__back-button{
       padding: 0;
       width: 1.5em;
-      background-color: rgb(77, 77, 77);
+      background-color: var(--clr-gray);
       border: none;
       color: white;
       border-radius: var(--border-main);
@@ -70,7 +70,7 @@
     margin-top: 1em;
     width: 100%;
     margin-top: auto;
-    border-top: grey 1px solid;
+    border-top: var(--clr-dividers) 1px solid;
     
     &__input {
       border: none;
@@ -106,4 +106,35 @@
 
 .meta-you {
   text-align: right;
+}
+
+
+div#wave {
+	.dot {
+		display:inline-block;
+		width:8px;
+		height:8px;
+		border-radius:50%;
+		margin-right:5px;
+		background: var(--clr-gray);
+		animation: wave 1s linear infinite;
+
+		&:nth-child(2) {
+			animation-delay: -0.8s;
+		}
+
+		&:nth-child(3) {
+			animation-delay: -0.6s;
+		}
+	}
+}
+
+@keyframes wave {
+	0%, 60%, 100% {
+		transform: initial;
+	}
+
+	30% {
+		transform: translateY(-10px);
+	}
 }

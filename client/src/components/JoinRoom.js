@@ -26,11 +26,19 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
     fetchRooms();
   }, [setShowJoinRoom])
 
+  useEffect(() => {
+    socket.on("room_created", (room) => {
+      setRoomList((prevList) => [...prevList, room])
+    })
+  }, [socket])
+
   const joinRoom = async () => {
     if (username === ""|| room === "") return;
-    if (roomStatus === "Create") await axios.post('http://localhost:3001/createRoom', { roomName: currentRoom})
-
-    socket.emit("join_room", room)
+    if (roomStatus === "Create") {
+      await axios.post('http://localhost:3001/createRoom', { roomName: currentRoom})
+      socket.emit("create_room", {room, username})
+    }
+    socket.emit("join_room", {room, username})
     setShowJoinRoom(false)
   }
 

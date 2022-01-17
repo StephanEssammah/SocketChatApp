@@ -33,21 +33,30 @@ app.post('/createRoom', async (req, res) => {
   res.status(201).end()
 })
 
-io.on("connection", (socket) => {
-  console.log(`${socket.id} Connected`)
 
-  socket.on("join_room", (room) => {
+
+io.on("connection", (socket) => {
+  socket.on("join_lobby", () => {
+    socket.join('lobby')
+  })
+
+  socket.on("join_room", ({username, room}) => {
     socket.join(room)
-    console.log(`User ${socket.id} joined: ${room}`)
+    console.log(`${username} joined room: ${room}`)
+  })
+
+  socket.on("create_room", ({username, room}) => {
+    socket.to('lobby').emit("room_created", room)
+    console.log(`${username} created room: ${room}`)
+  })
+
+  socket.on("typing", (room) => {
+    socket.to(room).emit("typing", room)
   })
 
   socket.on("send_message", async (data) => {
     await newMessage(data)
     socket.to(data.room).emit("receive_message", data)
-  })
-
-  socket.on("disconnect", () => {
-    console.log(`${socket.id} Disconnected`)
   })
 })
 
