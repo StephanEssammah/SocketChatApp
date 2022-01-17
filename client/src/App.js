@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       {showJoinRoom 
       ? <JoinRoom socket={socket} username={username} room={room} setUsername={setUsername} setRoom={setRoom} setShowJoinRoom={setShowJoinRoom}/>
-      : <Chat socket={socket} username={username} room={room}/>
+      : <Chat socket={socket} username={username} room={room} setShowJoinRoom={setShowJoinRoom}/>
       }
     </div>
   );

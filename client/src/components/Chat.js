@@ -2,18 +2,21 @@ import { useState, useEffect, useRef} from "react"
 import axios from 'axios'
 import './Chat.scss'
 
-export const Chat = ({socket, username, room}) => {
+export const Chat = ({socket, username, room, setShowJoinRoom}) => {
   const [currentMessage, setCurrentMessage] = useState("")
   const [messageList, setMessageList] = useState([])
   const messageEndRef = useRef(null);
 
   const sendMessage = async () => {
     if (currentMessage === "") return;
+    const currentTime = new Date();
+    currentTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
+
     const messageData = {
       username,
       room,
       message: currentMessage,
-      time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
+      time: currentTime
     }
     setCurrentMessage("")
     await socket.emit("send_message", messageData)
@@ -40,8 +43,10 @@ export const Chat = ({socket, username, room}) => {
 
   return (
     <div className="chat">
-      <p className="chat__over-title">Room:</p>
-      <h1 className="chat__title">{room}</h1>
+      <div className="chat__header">
+        <button className="chat__header__back-button" onClick={() => setShowJoinRoom(true)}>&lt;</button>
+        <h1 className="chat__header__title">{room}</h1>
+      </div>
 
       <div className="chat__body">
         {messageList.map((message, index) => {

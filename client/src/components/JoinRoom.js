@@ -24,7 +24,7 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
       setRoomList(theRooms.data)
     }
     fetchRooms();
-  }, [])
+  }, [setShowJoinRoom])
 
   const joinRoom = async () => {
     if (username === ""|| room === "") return;

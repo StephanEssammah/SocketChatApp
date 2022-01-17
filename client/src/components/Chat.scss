@@ -1,25 +1,36 @@
 .chat {
-  padding-top: 1em;
   text-align: center;
   background-color: var(--clr-background);
   height: 100vh;
   display: flex;
   flex-direction: column;
 
-  &__over-title {
-    color: rgb(190, 190, 190);
-  }
+  &__header {
+    padding: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: grey 1px solid;
 
-  &__title {
-    color: rgb(77, 77, 77);
-    margin-bottom: 1em;
-    line-height: 1em;
+    &__title {
+      color: rgb(77, 77, 77);
+    }
+
+    &__back-button{
+      padding: 0;
+      width: 1.5em;
+      background-color: rgb(77, 77, 77);
+      border: none;
+      color: white;
+      border-radius: var(--border-main);
+      font-size: 2em;
+      font-weight: 500;
+    }
   }
 
   &__body {
     width: 100%;
     max-height: 80vh;
-    padding: 0em 2em;
+    padding: 1em;
     overflow-y: scroll;
     overflow-anchor: auto;
 
@@ -55,10 +66,11 @@
   }
 
   &__footer {
-    padding: 1em 2em;
+    padding: 1em;
     margin-top: 1em;
     width: 100%;
     margin-top: auto;
+    border-top: grey 1px solid;
     
     &__input {
       border: none;
