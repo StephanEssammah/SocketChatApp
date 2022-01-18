@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { Chat } from './components/Chat';
 import { JoinRoom } from './components/JoinRoom';
 
-const socket = io.connect("http://localhost:3001")
+
+const socket = io()
 
 function App() {
   const [username, setUsername] = useState("");

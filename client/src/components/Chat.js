@@ -2,6 +2,8 @@ import { useState, useEffect, useRef} from "react"
 import axios from 'axios'
 import './Chat.scss'
 
+const API = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3001/'
+
 export const Chat = ({socket, username, room, setShowJoinRoom}) => {
   const [currentMessage, setCurrentMessage] = useState("")
   const [messageList, setMessageList] = useState([])
@@ -49,7 +51,7 @@ export const Chat = ({socket, username, room, setShowJoinRoom}) => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const messages = await axios.get('http://localhost:3001/getMessages', { params: {roomName: room} })
+      const messages = await axios.get(`${API}getMessages`, { params: {roomName: room} })
       setMessageList(messages.data)
     }
     fetchMessages();

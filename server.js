@@ -3,20 +3,15 @@ import http from "http"
 import cors from "cors"
 import { Server } from "socket.io"
 import { getRooms, getMessages, createRoom, newMessage } from "./utils.js"
-import { MongoClient } from "mongodb"
+import path from "path"
 
 const app = express()
 app.use(cors())
 app.use(express.json());
 
-
+const port = process.env.PORT || 3001;
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"]
-  }  
-})
+const io = new Server(server)
 
 app.get('/getRooms', async (req, res) => {
   const roomList = await getRooms()
@@ -59,5 +54,12 @@ io.on("connection", (socket) => {
     socket.to(data.room).emit("receive_message", data)
   })
 })
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 server.listen(3001, () => console.log('SERVER RUNNING ON PORT 3001'))

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './JoinRoom.scss'
 
+const API = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3001/'
+
 export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setUsername}) => {
   const [buttonStatus, setButtonStatus] = useState("")
   const [roomList, setRoomList] = useState([])
@@ -20,7 +22,7 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
 
   useEffect(() => {
     const fetchRooms = async () => {
-      const theRooms = await axios.get('http://localhost:3001/getRooms')
+      const theRooms = await axios.get(`${API}getRooms`)
       setRoomList(theRooms.data)
     }
     fetchRooms();
@@ -35,7 +37,7 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
   const joinRoom = async () => {
     if (username === ""|| room === "") return;
     if (roomStatus === "Create") {
-      await axios.post('http://localhost:3001/createRoom', { roomName: currentRoom})
+      await axios.post(`${API}createRoom`, { roomName: currentRoom})
       socket.emit("create_room", {room, username})
     }
     socket.emit("join_room", {room, username})
