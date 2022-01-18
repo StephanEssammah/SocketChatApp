@@ -62,4 +62,4 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-server.listen(3001, () => console.log('SERVER RUNNING ON PORT 3001'))
+server.listen(port, () => console.log('SERVER RUNNING ON PORT 3001'))
