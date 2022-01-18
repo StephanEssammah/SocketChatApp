@@ -18,6 +18,7 @@
       padding: 1em;
       text-align: center;
       width: 80%;
+      max-width: 20em;
       border: none;
       border-radius: var(--border-main);
       
@@ -33,20 +34,26 @@
 
   &__button {
     padding: 1em;
-    width: 80%;    
+    width: 80%;
+    max-width: 20em;    
     color: white;
-    background-color: #7F888D;
     border: none;
+    background-color: var(--clr-primary);
     border-radius: var(--border-main);
 
-    &-active {
-      background-color: var(--clr-primary);
-      color: white;
-      border: none;
+    &:hover {
+      filter: brightness(1.15)
     }
   }
 }
 
 .Join{
   background-color: #06D471;
+}
+
+.button-inactive {
+  background-color: #7F888D;
+  &:hover {
+    filter: brightness(1)
+  }
 }
