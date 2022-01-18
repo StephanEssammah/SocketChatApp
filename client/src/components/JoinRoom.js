@@ -10,8 +10,8 @@ export const JoinRoom = ({socket, username, room, setShowJoinRoom, setRoom, setU
 
   useEffect(() => {
     username === "" || room === ""
-      ? setButtonStatus("join-room__button-inactive")
-      : setButtonStatus("join-room__button-active")
+      ? setButtonStatus("button-inactive")
+      : setButtonStatus("")
     
     roomList.includes(currentRoom)
       ? setRoomStatus("Join")
