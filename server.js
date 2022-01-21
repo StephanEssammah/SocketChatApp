@@ -11,7 +11,12 @@ app.use(express.json());
 
 const port = process.env.PORT || 3001;
 const server = http.createServer(app);
-const io = new Server(server)
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }  
+})
 
 app.get('/getRooms', async (req, res) => {
   const roomList = await getRooms()

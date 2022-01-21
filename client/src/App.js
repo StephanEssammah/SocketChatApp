@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { Chat } from './components/Chat';
 import { JoinRoom } from './components/JoinRoom';
 
+const URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3001/'
 
-const socket = io()
+const socket = io.connect(URL)
 
 function App() {
   const [username, setUsername] = useState("");
